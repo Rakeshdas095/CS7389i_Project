@@ -1,0 +1,74 @@
+[gd_scene load_steps=14 format=3 uid="uid://bt28kkktirqdl"]
+
+[ext_resource type="PackedScene" uid="uid://c38hmwak0wujb" path="res://Scenes/XR_Rig.tscn" id="1_hhs6j"]
+[ext_resource type="Script" path="res://Scripts/ActionZone.gd" id="2_kkrn7"]
+[ext_resource type="Script" path="res://Scripts/RedirectionManager.gd" id="3_fwjqc"]
+[ext_resource type="Script" path="res://Scripts/CurvatureController.gd" id="4_tcsu2"]
+[ext_resource type="Script" path="res://Scripts/ResetController.gd" id="5_2vclo"]
+[ext_resource type="Script" path="res://Scripts/MetaStrategyManager.gd" id="6_hqu0u"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r4snt"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_c5c3h"]
+sky_material = SubResource("ProceduralSkyMaterial_r4snt")
+
+[sub_resource type="Environment" id="Environment_qeldc"]
+background_mode = 2
+sky = SubResource("Sky_c5c3h")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_eyq75"]
+size = Vector3(8, 0.2, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ddw37"]
+size = Vector3(8, 0.2, 8)
+
+[sub_resource type="SphereMesh" id="SphereMesh_mfgol"]
+radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8jf45"]
+radius = 1.0
+
+[node name="MainVR" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qeldc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="XR_Rig" parent="." instance=ExtResource("1_hhs6j")]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_eyq75")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_ddw37")
+
+[node name="ActionZone" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
+script = ExtResource("2_kkrn7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ActionZone"]
+mesh = SubResource("SphereMesh_mfgol")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ActionZone"]
+shape = SubResource("SphereShape3D_8jf45")
+
+[node name="RedirectionManager" type="Node3D" parent="."]
+script = ExtResource("3_fwjqc")
+
+[node name="CurvatureController" type="Node3D" parent="."]
+script = ExtResource("4_tcsu2")
+
+[node name="ResetController" type="Node3D" parent="."]
+script = ExtResource("5_2vclo")
+
+[node name="MetaStrategyManager" type="Node3D" parent="."]
+script = ExtResource("6_hqu0u")
