@@ -5,7 +5,7 @@ var rotation_gain := 1.0
 
 func _ready() -> void:
     # Point to your XR rig’s origin; adjust the path if needed
-    xr_origin = get_node("../XR_Rig/XROrigin3D")  
+    xr_origin = get_node("../XROrigin3D") 
     rotation_gain = Globals.settings.rotation_gain
     # Enable this node to receive input events
     set_process_input(true)

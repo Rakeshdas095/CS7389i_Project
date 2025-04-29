@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://chp1uj8td3gwu"]
+[gd_scene format=3 uid="uid://c3il6b6v8471g"]
 
-[node name="Calibaration" type="Control"]
+[node name="CalibarationPanel" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
