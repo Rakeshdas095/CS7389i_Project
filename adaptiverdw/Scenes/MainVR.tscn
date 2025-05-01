@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bt28kkktirqdl"]
+[gd_scene load_steps=26 format=3 uid="uid://bt28kkktirqdl"]
 
 [ext_resource type="Script" path="res://Scripts/Initialize.gd" id="1_2qm00"]
 [ext_resource type="Script" path="res://Scripts/ActionZone.gd" id="2_kkrn7"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/MetaStrategyManager.gd" id="6_hqu0u"]
 [ext_resource type="PackedScene" uid="uid://c3il6b6v8471g" path="res://Scenes/CalibrationPanel.tscn" id="6_oo0k3"]
 [ext_resource type="Script" path="res://Scripts/SpatialMenu.gd" id="7_62346"]
+[ext_resource type="Script" path="res://Scripts/Ballons.gd" id="10_q8y60"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r4snt"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -49,14 +50,30 @@ albedo_texture = SubResource("ViewportTexture_kl6k0")
 size = Vector2(2, 2)
 orientation = 1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2rgup"]
+albedo_color = Color(0.1, 0.6, 0.6, 1)
+emission_enabled = true
+emission_energy_multiplier = 0.5
+
+[sub_resource type="TorusMesh" id="TorusMesh_1t4ky"]
+inner_radius = 2.9
+outer_radius = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_2nlxt"]
+radius = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_irg6d"]
+albedo_color = Color(0.962367, 0.592963, 0.627268, 0.815686)
+
 [node name="MainVR" type="Node3D"]
+transform = Transform3D(0.999694, 0.0141472, 0.0202755, -0.0141582, 0.9999, 0.000396389, -0.0202678, -0.000683331, 0.999794, 0, 0, 0)
 script = ExtResource("1_2qm00")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qeldc")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0.0806873, 0.262514, 0.078186)
 shadow_enabled = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
@@ -90,6 +107,7 @@ script = ExtResource("5_2vclo")
 script = ExtResource("6_hqu0u")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12974, 0.268652)
 
 [node name="Camera" type="XRCamera3D" parent="XROrigin3D"]
 
@@ -116,7 +134,7 @@ menu_path = NodePath("../../SpatialMenu")
 target_position = Vector3(0, 0, -10)
 
 [node name="SpatialMenu" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.35546, -0.944133)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.35546, -0.922122)
 script = ExtResource("7_62346")
 vp_path = NodePath("CalibarationViewport")
 mesh_path = NodePath("UI Area/MeshInstance3D")
@@ -154,3 +172,39 @@ shape = SubResource("BoxShape3D_2jfnb")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SpatialMenu/UI Area"]
 material_override = SubResource("StandardMaterial3D_hdann")
 mesh = SubResource("QuadMesh_8ii31")
+
+[node name="BoundaryRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22308, 0)
+material_override = SubResource("StandardMaterial3D_2rgup")
+mesh = SubResource("TorusMesh_1t4ky")
+
+[node name="Balloons" type="Node3D" parent="."]
+script = ExtResource("10_q8y60")
+
+[node name="Ballon1" type="Node3D" parent="Balloons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.94843, 0.666579, -0.00219727)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Balloons/Ballon1"]
+mesh = SubResource("SphereMesh_2nlxt")
+surface_material_override/0 = SubResource("StandardMaterial3D_irg6d")
+
+[node name="Ballon4" type="Node3D" parent="Balloons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.91056, 0.617158, -0.731185)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Balloons/Ballon4"]
+mesh = SubResource("SphereMesh_2nlxt")
+surface_material_override/0 = SubResource("StandardMaterial3D_irg6d")
+
+[node name="Ballon3" type="Node3D" parent="Balloons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.61935, 0.676135, 1.75505)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Balloons/Ballon3"]
+mesh = SubResource("SphereMesh_2nlxt")
+surface_material_override/0 = SubResource("StandardMaterial3D_irg6d")
+
+[node name="Ballon2" type="Node3D" parent="Balloons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.60305, 0.655767, 1.80057)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Balloons/Ballon2"]
+mesh = SubResource("SphereMesh_2nlxt")
+surface_material_override/0 = SubResource("StandardMaterial3D_irg6d")
