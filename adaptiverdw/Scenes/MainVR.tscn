@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bt28kkktirqdl"]
+[gd_scene load_steps=21 format=3 uid="uid://bt28kkktirqdl"]
 
 [ext_resource type="Script" path="res://Scripts/Initialize.gd" id="1_2qm00"]
 [ext_resource type="Script" path="res://Scripts/ActionZone.gd" id="2_kkrn7"]
@@ -35,28 +35,19 @@ radius = 1.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_8jf45"]
 radius = 1.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_1xjqk"]
-viewport_path = NodePath("SpatialMenu/CalibarationViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt21q"]
-resource_local_to_scene = true
-albedo_color = Color(0.803922, 0.811765, 1, 1)
-albedo_texture = SubResource("ViewportTexture_1xjqk")
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_vt06w"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_e3psi"]
-viewport_path = NodePath("SpatialMenu/CalibarationViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jxr1r"]
-resource_local_to_scene = true
-albedo_texture = SubResource("ViewportTexture_e3psi")
-
-[sub_resource type="QuadMesh" id="QuadMesh_smp4o"]
-size = Vector2(2, 1)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_2jfnb"]
-size = Vector3(1, 0.5, 0.1)
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_kl6k0"]
+viewport_path = NodePath("SpatialMenu/CalibarationViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hdann"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_kl6k0")
+
+[sub_resource type="QuadMesh" id="QuadMesh_8ii31"]
+size = Vector2(2, 2)
+orientation = 1
 
 [node name="MainVR" type="Node3D"]
 script = ExtResource("1_2qm00")
@@ -124,16 +115,13 @@ menu_path = NodePath("../../SpatialMenu")
 [node name="RayCast3D" type="RayCast3D" parent="XROrigin3D/RightController"]
 target_position = Vector3(0, 0, -10)
 
-[node name="SpatialMenu" type="MeshInstance3D" parent="."]
+[node name="SpatialMenu" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.35546, -0.944133)
-material_override = SubResource("StandardMaterial3D_qt21q")
-mesh = SubResource("PlaneMesh_vt06w")
 script = ExtResource("7_62346")
 vp_path = NodePath("CalibarationViewport")
-mesh_path = NodePath("Area3D/MeshInstance3D")
+mesh_path = NodePath("UI Area/MeshInstance3D")
 
 [node name="CalibarationViewport" type="SubViewport" parent="SpatialMenu"]
-disable_3d = true
 transparent_bg = true
 render_target_update_mode = 4
 
@@ -157,14 +145,12 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Area3D" type="Area3D" parent="SpatialMenu"]
+[node name="UI Area" type="Area3D" parent="SpatialMenu"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SpatialMenu/Area3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_jxr1r")
-mesh = SubResource("QuadMesh_smp4o")
-skeleton = NodePath("../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SpatialMenu/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpatialMenu/UI Area"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_2jfnb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpatialMenu/UI Area"]
+material_override = SubResource("StandardMaterial3D_hdann")
+mesh = SubResource("QuadMesh_8ii31")
